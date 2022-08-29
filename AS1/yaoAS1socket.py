@@ -63,7 +63,7 @@ class TCPsocket:
         except socket.gaierror:
         #    print("Failed to gethostbyname")
             return None
-        return ip
+        return print(ip)
 
 
     # connect to a remote server: IP address (a string), port (integer)
@@ -91,14 +91,14 @@ class TCPsocket:
         #    print("socket error in send: {}".format(e))
             self.sock.close()
             self.sock = None
-        return bytesSent
+        return print(bytesSent)
 
     # Receive the response from the server. Return the reply as bytearray
     def receive(self) -> bytearray:
 
         reply = bytearray()    # reply is a local variable, bytearray is mutable
         if self.sock is None:
-            return reply  # return an empty bytearray, terminate this method
+            return print(reply)  # return an empty bytearray, terminate this method
 
         self.sock.settimeout(TIMEOUT) # Sets the socket to timeout after TIMEOUT seconds of no activity
 
@@ -118,7 +118,7 @@ class TCPsocket:
             print("socket error in receive: {}".format(e))  # if timeout, socket error in receive: timed out
             self.sock.close()
             self.sock = None
-        return reply
+        return print(reply)
 
     # Close socket
     def close(self):

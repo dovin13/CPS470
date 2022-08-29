@@ -1,12 +1,14 @@
 
 from yaoAS1socket import TCPsocket
 from yaoAS1request import Request
+import sys
 
 def main(): # function, method are the same
 
     mysocket = TCPsocket() # create an object of TCP socket
     mysocket.createSocket()
-    host = "www.google.com"
+    host = sys.argv[1]
+   # host = "www.google.com"
     ip = mysocket.getIP(host)
     port  = 80
     mysocket.connect(ip, port)
