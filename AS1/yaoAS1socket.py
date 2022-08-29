@@ -101,8 +101,6 @@ class TCPsocket:
         reply = bytearray()
         bytesRecd = 0   # local variable, integer
         self.sock.settimeout(TIMEOUT) # Sets the socket to timeout after TIMEOUT seconds of no activity
-
-    
         try:
             while True:     # use a loop to receive receive all data
                 data = self.sock.recv(BUF_SIZE)  # returned chunk of data with max length BUF_SIZE. data is in bytes
