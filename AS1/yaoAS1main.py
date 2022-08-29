@@ -25,8 +25,8 @@ def main(): # function, method are the same
     mysocket.send(msg)
     data = mysocket.receive() # receive a reply from the server
    
-    print("data received: ", format(data))
-    print(calendar.day_name[curr_date.weekday()] + ', ' + str(current_time.day) + ' ' + current_time.strftime("%b") + ' ' + str(current_time.year) + ' ' + current_time.strftime("%H:%M:%S"))
+    print("data received: ", data.decode())
+   # print(calendar.day_name[curr_date.weekday()] + ', ' + str(current_time.day) + ' ' + current_time.strftime("%b") + ' ' + str(current_time.year) + ' ' + current_time.strftime("%H:%M:%S"))
 
     mysocket.close()
 
