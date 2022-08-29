@@ -40,18 +40,18 @@ class TCPsocket:
     def __init__(self):
         self.sock = None  # each object's instance variables
         self.host = ""  # remote server's host name
-    #    print("create an object of TCPsocket")
+        print("create an object of TCPsocket")
 
     # create a TCP socket
     def createSocket(self):
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # self.sock is an instance variable
-        #    print("created a tcp socket!")
+            print("created a TCP socket!")
         except socket.error as e:
-        #    print("Failed to create a TCP socket {}".format(e))
+            print("Failed to create a TCP socket {}".format(e))
             self.sock = None
 
-    # www.google.com -> host name
+
     # given a host name, how to get its ip address
     # Return the ip of input hostname. Both ip and hostname in string
     def getIP(self, hostname):
@@ -61,9 +61,9 @@ class TCPsocket:
         try:
             ip = socket.gethostbyname(hostname)   # ip is a local variable to getIP(hostname), ip is of string type
         except socket.gaierror:
-        #    print("Failed to gethostbyname")
+            print("Failed to gethostbyname")
             return None
-        return print(ip)
+        return ip
 
 
     # connect to a remote server: IP address (a string), port (integer)
@@ -74,9 +74,9 @@ class TCPsocket:
         try:
             self.sock.settimeout(TIMEOUT)
             self.sock.connect((ip, port))   # server address is defined by (ip, port)
-        #    print("Successfully connect to host:", ip)
+            print("Successfully connected to host:", ip)
         except socket.error as e:
-         #   print("Failed to connect: {}".format(e)) # if timeout, socket error in receive: timed out
+            print("Failed to connect: {}".format(e)) # if timeout, socket error in receive: timed out
             self.sock.close()
             self.sock = None
 
@@ -91,19 +91,18 @@ class TCPsocket:
         #    print("socket error in send: {}".format(e))
             self.sock.close()
             self.sock = None
-        return print(bytesSent)
+        return bytesSent
 
     # Receive the response from the server. Return the reply as bytearray
     def receive(self) -> bytearray:
 
-        reply = bytearray()    # reply is a local variable, bytearray is mutable
         if self.sock is None:
-            return print(reply)  # return an empty bytearray, terminate this method
-
+            return b''  # return an empty bytearray, terminate this method
+        reply = bytearray()
+        bytesRecd = 0   # local variable, integer
         self.sock.settimeout(TIMEOUT) # Sets the socket to timeout after TIMEOUT seconds of no activity
 
-        # else we have data to read
-        bytesRecd = 0   # local variable, integer
+    
         try:
             while True:     # use a loop to receive receive all data
                 data = self.sock.recv(BUF_SIZE)  # returned chunk of data with max length BUF_SIZE. data is in bytes
@@ -118,7 +117,7 @@ class TCPsocket:
             print("socket error in receive: {}".format(e))  # if timeout, socket error in receive: timed out
             self.sock.close()
             self.sock = None
-        return print(reply)
+        return reply
 
     # Close socket
     def close(self):
