@@ -12,13 +12,11 @@ def main(): # function, method are the same
     mysocket.createSocket()
     host = sys.argv[1]
     parsed = urlparse(host) #parses url to get specific things from the URL itself
-    print(parsed)
     print('URL: ' + host)
-   
     ip = mysocket.getIP(host)
  
     port  = 80
-    print('Parsing URL... host ' + parsed.path + ', port ' + str(port) + ' request /' + parsed.query)   # ip is a local variable to getIP(hostname), ip is of string type
+    print('Parsing URL... host ' + parsed.path + ', port ' + str(port) + ' request /' + parsed.params + parsed.query)   # ip is a local variable to getIP(hostname), ip is of string type
 
     start2 = time.perf_counter() #connection timer 
     mysocket.connect(ip, port)
@@ -28,7 +26,8 @@ def main(): # function, method are the same
     myrequest = Request()
     msg = myrequest.headRequest(host)
     print(msg.decode())
-
+    msg1 = myrequest.getRequest(host, parsed.path, parsed.query)
+    print(msg1.decode())
     # send out request
     mysocket.send(msg)
     data = mysocket.receive() # receive a reply from the server
