@@ -20,7 +20,7 @@ def main(): # function, method are the same
 
     start2 = time.perf_counter() #connection timer 
     mysocket.connect(ip, port)
-    print('Connection on page took: ' + str(time.perf_counter()-start2) + ' seconds')
+    print('Connecting on page... done in ' + str(time.perf_counter()-start2) + ' seconds')
 
     # build our request
     myrequest = Request()

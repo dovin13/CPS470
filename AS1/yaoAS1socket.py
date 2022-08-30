@@ -71,13 +71,15 @@ class TCPsocket:
 
     # connect to a remote server: IP address (a string), port (integer)
     def connect(self, ip, port):
+        start = time.time()
         if self.sock is None or ip is None:
             self.sock = None  # <-- add this line: to disable the rest of socket function calls. 9-2-2021
             return
         try:
             self.sock.settimeout(TIMEOUT)
             self.sock.connect((ip, port))   # server address is defined by (ip, port)
-            print("Successfully connected to host:", ip)
+            end = time.time()
+            print("Doing DNS... done in ",end - start,"seconds, found ", ip)
         except socket.error as e:
             print("Failed to connect: {}".format(e)) # if timeout, socket error in receive: timed out
             self.sock.close()
