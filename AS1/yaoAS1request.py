@@ -7,6 +7,7 @@ class Request:
         """Build an HTTP GET request """
         self.request = bytearray()
         self.request += b'GET ' + path.encode() + query.encode() + b' HTTP/1.0' +  b'\nHost: ' + host.encode() + b'\nConnection: close\n\n'
+        print(self.request.encode())
         return self.request
 
     # host has type string

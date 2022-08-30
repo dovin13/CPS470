@@ -40,17 +40,16 @@ class TCPsocket:
     def __init__(self):
         self.sock = None  # each object's instance variables
         self.host = ""  # remote server's host name
-        print("create an object of TCPsocket")
+        #print("create an object of TCPsocket")
 
     # create a TCP socket
     def createSocket(self):
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # self.sock is an instance variable
-            print("created a TCP socket!")
+           # print("created a TCP socket!")
         except socket.error as e:
-            print("Failed to create a TCP socket {}".format(e))
+           # print("Failed to create a TCP socket {}".format(e))
             self.sock = None
-
 
     # given a host name, how to get its ip address
     # Return the ip of input hostname. Both ip and hostname in string
@@ -59,7 +58,7 @@ class TCPsocket:
         if (len(hostname) > 64):  # socket fails with idna codec error when a host name exceeds 64 characters.
             return None
         try:
-            ip = socket.gethostbyname(hostname)   # ip is a local variable to getIP(hostname), ip is of string type
+            ip = socket.gethostbyname(hostname)
         except socket.gaierror:
             print("Failed to gethostbyname")
             return None

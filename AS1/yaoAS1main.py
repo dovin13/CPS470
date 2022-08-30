@@ -2,31 +2,36 @@
 from yaoAS1socket import TCPsocket
 from yaoAS1request import Request
 import sys
-from datetime import date
-import datetime
-import calendar
+import time
+from urllib.parse import urlparse
 
 def main(): # function, method are the same
-    curr_date = date.today()
-    current_time = datetime.datetime.now()
+
 
     mysocket = TCPsocket() # create an object of TCP socket
     mysocket.createSocket()
     host = sys.argv[1]
+    parsed = urlparse(host) #parses url to get specific things from the URL itself
+    print('URL: ' + host)
     ip = mysocket.getIP(host)
+ 
     port  = 80
+    print('Parsing URL... host ' + str(ip) + ', port ' + str(port) + ' request /' + parsed.query)   # ip is a local variable to getIP(hostname), ip is of string type
+
+    start = time.perf_counter() #connection timer 
     mysocket.connect(ip, port)
+    print('Connection on page took: ' + str(time.perf_counter()-start) + ' seconds')
 
     # build our request
     myrequest = Request()
     msg = myrequest.headRequest(host)
+    print(msg.decode())
 
     # send out request
     mysocket.send(msg)
     data = mysocket.receive() # receive a reply from the server
     print('_' * 120)
-    print( data.decode())
-   # print(calendar.day_name[curr_date.weekday()] + ', ' + str(current_time.day) + ' ' + current_time.strftime("%b") + ' ' + str(current_time.year) + ' ' + current_time.strftime("%H:%M:%S"))
+    print(data.decode())
 
     mysocket.close()
 
