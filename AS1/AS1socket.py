@@ -1,33 +1,6 @@
 # Authors: Ivan Mardovin, Brandon Manz, James Fehr
 # Date: 8/29/22
 
-"""
-https://stackoverflow.com/questions/32062925/python-socket-server-handle-https-request
-
-https://docs.python.org/3/library/ssl.html
-
-import socket, ssl
-
-HOST = "www.youtube.com"
-PORT = 443
-
-context = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s_sock = context.wrap_socket(s, server_hostname=HOST)
-s_sock.connect((HOST, 443))
-s_sock.send(" GET / HTTP/1.1\r\nHost: www.youtube.com\r\n\r\n ".encode())
-
-while True:
-    data = s_sock.recv(2048)
-    if ( len(data) < 1 ) :
-        break
-    print(data)
-
-s_sock.close()
-"""
-
-
-# resources: https://docs.python.org/3/howto/sockets.html
 
 import time
 import socket
@@ -71,15 +44,13 @@ class TCPsocket:
 
     # connect to a remote server: IP address (a string), port (integer)
     def connect(self, ip, port):
-        start = time.time()
         if self.sock is None or ip is None:
             self.sock = None  # <-- add this line: to disable the rest of socket function calls. 9-2-2021
             return
         try:
             self.sock.settimeout(TIMEOUT)
             self.sock.connect((ip, port))   # server address is defined by (ip, port)
-            end = time.time()
-            print("Doing DNS... done in ",end - start,"seconds, found ", ip)
+          
         except socket.error as e:
             print("Failed to connect: {}".format(e)) # if timeout, socket error in receive: timed out
             self.sock.close()
@@ -91,6 +62,7 @@ class TCPsocket:
         if self.sock is None:
             return 0
         try: # our request is not big, so we can sendall at once
+           
             bytesSent = self.sock.sendall(request) #.encode())   # encode(): convert string to bytes
         except socket.error as e:
         #    print("socket error in send: {}".format(e))
