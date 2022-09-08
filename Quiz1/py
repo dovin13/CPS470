@@ -28,7 +28,7 @@ def unique(list1):
         if x not in unique_list:
             unique_list.append(x)
     # print list
-    return unique_list 
+    return unique_list
 def uniqueLogic(queue, unique, counter):
     print('hello from unique Logic')
     uniqueCheck = []
@@ -40,9 +40,12 @@ def uniqueLogic(queue, unique, counter):
          count = count + 1
      if(count == 1):
       counter = counter + 1
+      uniqueCheck.append(uni)
      count = 0
      first5queue = [queue[0] + queue[1] + queue[2] + queue[3] + queue[4]]
-     print(first5queue)
+     #print(first5queue)
+    print('countUnique Value: ' + str(counter))
+    print('Unique List: ' + str(uniqueCheck))
 def main():
     queue = jobs()
     print(queue)
@@ -63,10 +66,6 @@ def main():
     thread5.start()
     time.sleep(1)
     print('Thread Self Check ended')
-
-    countUnique = len(uniqueQueue)
-    print('countUnique Value: ' + str(countUnique))
-    print('Unique List: ' + str(uniqueQueue))
 # calls main() method:
 if __name__ == "__main__":
    main()
