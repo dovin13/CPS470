@@ -1,0 +1,72 @@
+import random
+import threading
+import time 
+
+class thread(threading.Thread):
+    def __init__(self, thread_ID, thread_int):
+        threading.Thread.__init__(self)
+        self.thread_ID = thread_ID
+        self.thread_int = thread_int
+        # helper function to execute the threads
+    def run(self):  
+        print('Thread ID: ' + str(self.thread_ID) + ', Thread job integer ' + str(self.thread_int))
+      
+
+def jobs():
+ jobs=[]
+ for i in range(20):
+    number = random.randint(10,30)
+    jobs.append(number)
+ return jobs
+def unique(list1):
+  
+    # initialize a null list
+    unique_list = []
+  
+    # traverse for all elements
+    for x in list1:
+        if x not in unique_list:
+            unique_list.append(x)
+    # print list
+    return unique_list 
+def uniqueLogic(queue, unique, counter):
+    print('hello from unique Logic')
+    uniqueCheck = []
+    first5queue = []
+    count = 0
+    for uni in unique:
+     for jobs in queue:
+        if(uni == jobs):
+         count = count + 1
+     if(count == 1):
+      counter = counter + 1
+     count = 0
+     first5queue = [queue[0] + queue[1] + queue[2] + queue[3] + queue[4]]
+     print(first5queue)
+def main():
+    queue = jobs()
+    print(queue)
+    countUnique = 0
+    uniqueQueue = unique(queue)
+    uniqueLogic(queue, uniqueQueue, countUnique)
+    time.sleep(1)
+    print('Thread Self Check: ')
+    thread1 = thread(1, queue[0])
+    thread2 = thread(2, queue[1])
+    thread3 = thread(3, queue[2])
+    thread4 = thread(4, queue[3])
+    thread5 = thread(5, queue[4])
+    thread1.start()
+    thread2.start()
+    thread3.start()
+    thread4.start()
+    thread5.start()
+    time.sleep(1)
+    print('Thread Self Check ended')
+
+    countUnique = len(uniqueQueue)
+    print('countUnique Value: ' + str(countUnique))
+    print('Unique List: ' + str(uniqueQueue))
+# calls main() method:
+if __name__ == "__main__":
+   main()
