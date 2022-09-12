@@ -18,7 +18,11 @@ def main(): # function, method are the same
     #parsed = urlparse(host) #parses url to get specific things from the URL itself
 
     #Parts that need to be looped (starting point)
-    print('URL: ' + host)
+    for i in range(totalnum):
+        print("\Number of URLs remaining: ", len(X))
+        print('URL: ' + host)
+        host = X.pop(0)
+        parsed = urlparse(host) #parses url to get specific things from the URL itself
    
  
     port  = 80
