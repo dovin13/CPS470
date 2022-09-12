@@ -12,8 +12,12 @@ def main(): # function, method are the same
     mysocket = TCPsocket() # create an object of TCP socket
     mysocket.createSocket()
     numThreads = input('How many threads to run: ')
-    host = input('What is the input file: ')
-    parsed = urlparse(host) #parses url to get specific things from the URL itself
+    inputfile = input('What is the input file: ')
+    X = addURL(inputfile)
+    totalnum = len(X)
+    #parsed = urlparse(host) #parses url to get specific things from the URL itself
+
+    #Parts that need to be looped (starting point)
     print('URL: ' + host)
    
  
@@ -53,7 +57,8 @@ def main(): # function, method are the same
     
 
     print('_' * 120)
-   
+   #where looping needs to end (end point)
+
     print(data.decode())
 
     msg1 = myrequest.getRequest(host, parsed.path, parsed.query)
