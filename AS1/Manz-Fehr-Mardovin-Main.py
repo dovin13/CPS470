@@ -11,7 +11,8 @@ def main(): # function, method are the same
 
     mysocket = TCPsocket() # create an object of TCP socket
     mysocket.createSocket()
-    host = input('What is your requested site: ')
+    numThreads = input('How many threads to run: ')
+    host = input('What is the input file: ')
     parsed = urlparse(host) #parses url to get specific things from the URL itself
     print('URL: ' + host)
    
