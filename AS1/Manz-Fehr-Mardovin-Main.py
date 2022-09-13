@@ -9,26 +9,26 @@ from urllib.parse import urlparse
 def main(): # function, method are the same
 
 
+
+ #numThreads = input('How many threads to run: ')
+ #inputfile = input('What is the input file: ')
+
+
+ with open("URL-input-100.txt","r") as f:
+  
+  for line in f:
+    #Parts that need to be looped (starting point)
     mysocket = TCPsocket() # create an object of TCP socket
     mysocket.createSocket()
-    numThreads = input('How many threads to run: ')
-    inputfile = input('What is the input file: ')
-    X = addURL(inputfile)
-    totalnum = len(X)
-    #parsed = urlparse(host) #parses url to get specific things from the URL itself
-
-    #Parts that need to be looped (starting point)
-    for i in range(totalnum):
-        print("\Number of URLs remaining: ", len(X))
-        print('URL: ' + host)
-        host = X.pop(0)
-        parsed = urlparse(host) #parses url to get specific things from the URL itself
+    host = line
+    print('URL: ' + host)
+    parsed = urlparse(host) #parses url to get specific things from the URL itself
    
  
     port  = 80
-    print('Parsing URL... host ' + parsed.path + ', port ' + str(port) + ' request /' + parsed.query)   # ip is a local variable to getIP(hostname), ip is of string type
+    print('Parsing URL... host ' + parsed.hostname + ', port ' + str(port) + ' request /' + parsed.query)   
     start = time.perf_counter()
-    ip = mysocket.getIP(host)
+    ip = mysocket.getIP(parsed.hostname) # ip is a local variable to getIP(hostname), ip is of string type
     end = time.perf_counter()
     timme = (end-start) * 1000
     timme = int(timme)
@@ -41,8 +41,9 @@ def main(): # function, method are the same
 
     # build our request
     myrequest = Request()
-    msg = myrequest.headRequest(host)
-   # print(msg.decode())
+    #working on what is passed into this
+    msg = myrequest.headRequest(parsed.hostname)
+    print(msg.decode())
    
 
 
@@ -50,7 +51,7 @@ def main(): # function, method are the same
 
     mysocket.send(msg)
     start = time.perf_counter()
-    data = mysocket.receive() # receive a reply from the server
+    data = mysocket.receive()
     end = time.perf_counter()
     tim = (end - start) * 1000
     tim = int(tim)
@@ -65,12 +66,14 @@ def main(): # function, method are the same
 
     print(data.decode())
 
-    msg1 = myrequest.getRequest(host, parsed.path, parsed.query)
+    msg1 = myrequest.getRequest(parsed.hostname, parsed.path, parsed.query)
     mysocket.send(msg1)
     dat = mysocket.receive()
     #the get request does not send back info the HEAD request does and logic is up above
-    #print('MMM: ' + str(dat))
+    print('getRequest: ' + dat.decode())
+    print('_' *120)
     mysocket.close()
+    time.sleep(1)
 
 
 
