@@ -26,7 +26,6 @@ class thread(threading.Thread):
         threadLock.release()
 
 def getnewIP(hostname):
- 
         if (len(hostname) > 64):  # socket fails with idna codec error when a host name exceeds 64 characters.
             return None
         try:
@@ -36,6 +35,8 @@ def getnewIP(hostname):
             return None
         return ip
 
+
+#main method
 if __name__ == "__main__":
 
 
@@ -54,10 +55,11 @@ if __name__ == "__main__":
         checkHost.append(parse.hostname)
         urlArray.append(lines)
         mysocket.close()
+    #the txt file is put inside a queue then change logic to pop Q instead of a for loop
     Q = Queue()
     Q = urlArray
     print(checkIP)
-
+ #end of future main method when thread is implemented
 
  #put everything below in a function that is called inside the thread run(self) method    
  with open("URL-input-100.txt","r") as f:
