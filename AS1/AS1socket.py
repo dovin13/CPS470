@@ -14,7 +14,7 @@ class TCPsocket:
     def __init__(self):
         self.sock = None  # each object's instance variables
         self.host = ""  # remote server's host name
-        print("create an object of TCPsocket")
+ 
 
     # create a TCP socket
     def createSocket(self):
@@ -26,7 +26,11 @@ class TCPsocket:
         except socket.error as e:
             print("Failed to create a TCP socket {}".format(e))
             self.sock = None
-
+    def createSocketnoPrint(self):
+        try:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # self.sock is an instance variable
+        except socket.error as e:
+            self.sock = None
 
     # given a host name, how to get its ip address
     # Return the ip of input hostname. Both ip and hostname in string

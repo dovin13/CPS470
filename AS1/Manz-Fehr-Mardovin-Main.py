@@ -4,29 +4,62 @@ from AS1request import Request
 import socket
 import time
 from urllib.parse import urlparse
+import threading
+from queue import Queue
 
 
+threadLock = threading.Lock()
+
+
+
+class thread(threading.Thread):
+    def __init__(self, thread_ID):
+        threading.Thread.__init__(self)
+        self.thread_ID = thread_ID
+
+        # helper function to execute the threads
+    def run(self):
+      while Q:
+        threadLock.acquire()
+        #call to all the logic for the main program 
+        thread.uniqueLogic()
+        threadLock.release()
 
 def getnewIP(hostname):
-        
+ 
         if (len(hostname) > 64):  # socket fails with idna codec error when a host name exceeds 64 characters.
             return None
         try:
             ip = socket.gethostbyname(hostname)   # ip is a local variable to getIP(hostname), ip is of string type
         except socket.gaierror:
-            print("Failed to gethostbyname")
+            x =1
             return None
         return ip
 
-def main(): # function, method are the same
-
+if __name__ == "__main__":
 
 
  #numThreads = input('How many threads to run: ')
  #inputfile = input('What is the input file: ')
-
+ urlArray = []
  checkIP = []
  checkHost = []
+ with open("URL-input-100.txt", "r") as d:
+    for lines in d:
+        mysocket = TCPsocket() # create an object of TCP socket
+        mysocket.createSocketnoPrint()
+        parse = urlparse(lines)
+        ips = getnewIP(parse.hostname)
+        checkIP.append(ips)
+        checkHost.append(parse.hostname)
+        urlArray.append(lines)
+        mysocket.close()
+    Q = Queue()
+    Q = urlArray
+    print(checkIP)
+
+
+ #put everything below in a function that is called inside the thread run(self) method    
  with open("URL-input-100.txt","r") as f:
   
   for line in f:
@@ -36,8 +69,6 @@ def main(): # function, method are the same
     host = line
     print('URL: ' + host)
     parsed = urlparse(host) #parses url to get specific things from the URL itself
-   
- 
     port  = 80
     print('Parsing URL... host ' + parsed.hostname + ', port ' + str(port) + ' request /' + parsed.query)   
     start = time.perf_counter()
@@ -45,8 +76,6 @@ def main(): # function, method are the same
 
     ip = mysocket.getIP(parsed.hostname)      # ip is a local variable to getIP(hostname), ip is of string type
 
-    checkHost.append(parsed.hostname)
-    checkIP.append(ip)
 
 
     if(checkHost.count(parsed.hostname) == 1):
@@ -58,7 +87,7 @@ def main(): # function, method are the same
     timme = int(timme)
     print("Doing DNS... done in ",str(timme)," ms, found ", ip)
     start2 = time.perf_counter() #connection timer 
-    if(checkIP.count(ip) == 1):
+    if(checkIP.count(ip) == 1 and ip != None):
         print('Checking IP uniqueness... passed')
     else:
         print('Checking IP uniqueness... failed')
@@ -97,6 +126,3 @@ def main(): # function, method are the same
 
 
 
-# call main() method:
-if __name__ == "__main__":
-   main()
