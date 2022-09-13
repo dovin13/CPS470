@@ -22,6 +22,7 @@ class thread(threading.Thread):
       while Q:
         threadLock.acquire()
         #call to all the logic for the main program 
+        
         thread.uniqueLogic()
         threadLock.release()
 
@@ -43,6 +44,8 @@ if __name__ == "__main__":
  #numThreads = input('How many threads to run: ')
  #inputfile = input('What is the input file: ')
  urlArray = []
+ global checkIP
+ global checkHost
  checkIP = []
  checkHost = []
  with open("URL-input-100.txt", "r") as d:
@@ -77,9 +80,6 @@ if __name__ == "__main__":
 
 
     ip = mysocket.getIP(parsed.hostname)      # ip is a local variable to getIP(hostname), ip is of string type
-
-
-
     if(checkHost.count(parsed.hostname) == 1):
         print('Checking host uniqueness... passed')
     else:
