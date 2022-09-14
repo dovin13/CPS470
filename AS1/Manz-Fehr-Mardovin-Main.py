@@ -1,4 +1,3 @@
-
 from AS1socket import TCPsocket
 from AS1request import Request
 import socket
@@ -9,7 +8,6 @@ from queue import Queue
 
 
 threadLock = threading.Lock()
-
 
 
 class thread(threading.Thread):
@@ -62,9 +60,14 @@ class thread(threading.Thread):
         myrequest = Request()
     #working on what is passed into this
         msg = myrequest.headRequest(parsed.hostname)
-   # print(msg.decode())
+       # print(msg.decode())
     # send out request
+        start3 = time.perf_counter()
         mysocket.send(msg)
+        end3 = time.perf_counter()
+        timee = (end3 - start3) * 1000000
+        timee = int(timee)
+        print('Connecting on robots... done in ' + str(timee) + ' microsecond')
         start = time.perf_counter()
         data = mysocket.receive()
         end = time.perf_counter()
@@ -76,12 +79,12 @@ class thread(threading.Thread):
     
         print('_' * 120)
 
-        print(data.decode())
+       
         msg1 = myrequest.getRequest(parsed.hostname, parsed.path, parsed.query)
         mysocket.send(msg1)
         dat = mysocket.receive()
     #the get request does not send back info the HEAD request does and logic is up above
-    #print('getRequest: ' + dat.decode())
+       # print('getRequest: ' + dat.decode())
         print('_' *120)
         mysocket.close()
         return ''
@@ -101,7 +104,7 @@ def getnewIP(hostname):
 #main Method
 if __name__ == "__main__":
 
-
+ #for part 3
  #https://stackoverflow.com/questions/6181935/how-do-you-create-different-variable-names-while-in-a-loop
  #use link above to create multiple threads in a loop after input of how many threads needed
 
@@ -110,7 +113,9 @@ if __name__ == "__main__":
  global checkHost
  checkIP = []
  checkHost = []
+ 
  with open("URL-input-100.txt", "r") as d:
+
     for lines in d:
         mysocket = TCPsocket() # create an object of TCP socket
         mysocket.createSocketnoPrint()
@@ -123,7 +128,9 @@ if __name__ == "__main__":
     #the txt file is put inside a queue then change logic to pop Q instead of a for loop
     Q = Queue()
     Q = urlArray
-    print(checkIP)
+ s = ''.join(urlArray)
+ print('Opened URL-input.txt with size ' + str(len(s)) + ' bytes')
+
 
 
  thread1 = thread(1)
