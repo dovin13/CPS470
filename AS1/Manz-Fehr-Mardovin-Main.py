@@ -8,33 +8,48 @@ from queue import Queue
 
 
 threadLock = threading.Lock()
-
+blank = 0
+counter = 0
 
 class thread(threading.Thread):
+
     def __init__(self, thread_ID):
         threading.Thread.__init__(self)
         self.thread_ID = thread_ID
-
         # helper function to execute the threads
     def run(self):
+     
       while Q:
+        print(len(Q))
         threadLock.acquire()
         #call to all the logic for the main program 
         thread.Logic(self.thread_ID)
         threadLock.release()
+        if(len(Q) == 0):
+            thread(self.thread_ID).do_run = False
     def Logic(id):
+      #set global here initialization above this class
+      global blank
+      global counter
       if(len(Q) == 0):
             return ''
-      if(len(Q) != 0):
+      if(id == 0):
+        blank = blank + 2
+        active = threading.active_count() - 1
+        print("time: " + str(blank) + " active: " + str(active))
+        time.sleep(2)
+        return ''
+      else:
+       if(len(Q) != 0):
     #Parts that need to be looped (starting point)
-       if(id == 0):
-        print('hello')
-       else:
+    
         mysocket = TCPsocket() # create an object of TCP socket
         mysocket.createSocket()
-        if(len(Q) == 0):
-            return ''
         host = Q.pop(0)
+        print(id)
+        counter = counter + 1
+        print("counter: " + str(counter))
+
         parsed = urlparse(host) #parses url to get specific things from the URL itself
         port  = 80
         ip = mysocket.getIP(parsed.hostname)      # ip is a local variable to getIP(hostname), ip is of string type
@@ -51,18 +66,6 @@ class thread(threading.Thread):
         mysocket.connect(ip, port)
 
         myrequest = Request()
-       # msg = myrequest.headRequest(parsed.hostname)
-       # print(msg.decode())
-    
-        #mysocket.send(msg)
-
- 
-
-       # data = mysocket.receive()
-
-       # print('Loading... done in '+ str(tim) + ' ms'  + ' with ' + str(len(data)) + ' bytes')
-       # string = data.decode()
-        #print('Verifying header... status code ' + str(string[9: 12]))
         msg1 = myrequest.getRequest(parsed.hostname, parsed.path, parsed.query)
         mysocket.send(msg1)
         dat = mysocket.receive()
@@ -85,16 +88,27 @@ def getnewIP(hostname):
             x =1
             return None
         return ip
-#main Method
+
 if __name__ == "__main__":
 
  #for part 3
  #https://stackoverflow.com/questions/6181935/how-do-you-create-different-variable-names-while-in-a-loop
  #use link above to create multiple threads in a loop after input of how many threads needed
 
- urlArray = []
+ 
  global checkIP
  global checkHost
+ global pendingqueue
+ global extracted
+ global successDNS
+ global uniqueIP
+ global uniqueHost
+ global robotcheck
+ global HTTPcode
+ 
+ 
+ urlArray = []
+ HTTPcode = []
  checkIP = []
  checkHost = []
  
@@ -116,20 +130,29 @@ if __name__ == "__main__":
  print('Opened URL-input.txt with size ' + str(len(s)) + ' bytes')
 
 
- thread0 = thread(0)
+ 
  thread1 = thread(1)
  thread2 = thread(2)
+ thread0 = thread(0)
  thread3 = thread(3)
+ thread4 = thread(4)
 
- thread0.start()
+
  thread1.start()
  thread2.start()
+ thread0.start()
  thread3.start()
+ thread4.start()
 
- thread0.join()
+
  thread1.join()
  thread2.join()
+ thread0.join()
  thread3.join()
+ thread4.join()
+
+
+ 
  print('hello')
 
 
