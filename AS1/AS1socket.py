@@ -2,7 +2,7 @@
 # Date: 8/29/22
 
 
-import time
+
 import socket
 
 TIMEOUT = 20 # unit is seconds
@@ -18,13 +18,12 @@ class TCPsocket:
 
     # create a TCP socket
     def createSocket(self):
-        start = time.time()
+
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # self.sock is an instance variable
-            end = time.time()
-            print("created a TCP socket!... done in ",end - start,"seconds")
+
         except socket.error as e:
-            print("Failed to create a TCP socket {}".format(e))
+
             self.sock = None
     def createSocketnoPrint(self):
         try:
@@ -56,7 +55,7 @@ class TCPsocket:
             self.sock.connect((ip, port))   # server address is defined by (ip, port)
           
         except socket.error as e:
-            print("Failed to connect: {}".format(e)) # if timeout, socket error in receive: timed out
+            #print("Failed to connect: {}".format(e)) # if timeout, socket error in receive: timed out
             self.sock.close()
             self.sock = None
 
@@ -93,7 +92,7 @@ class TCPsocket:
                     if (bytesRecd > 16000): # bigger than 16K bytes. Do not let remote server overload our RAM
                         break
         except socket.error as e:
-            print("socket error in receive: {}".format(e))  # if timeout, socket error in receive: timed out
+            #print("socket error in receive: {}".format(e))  # if timeout, socket error in receive: timed out
             self.sock.close()
             self.sock = None
         return reply
