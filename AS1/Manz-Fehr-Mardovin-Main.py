@@ -14,6 +14,8 @@ hostcounter = 0
 ipunique = 0
 httpcode = []
 httpcodecounter = 0
+robot = 0
+link = 0
 
 
 class thread(threading.Thread):
@@ -40,13 +42,15 @@ class thread(threading.Thread):
       global httpcodecounter
       global hostcounter
       global ipunique
+      global robot
+      global link
 
       if(len(Q) == 0):
             return ''
       if(id == 0):
         blank = blank + 2
         active = threading.active_count() - 1
-        print("[ " + str(blank) + "]   " + str(active) + " Q   " + str(len(Q)) + " E   " + str(hostcounter) + " H   " + str(ipunique) + " I   " + " R   " + str(httpcodecounter) + " C   " + " L   " + "K")
+        print("[ " + str(blank) + "]   " + str(active) + " Q   " + str(len(Q)) + " E   " + str(hostcounter) + " H   " + str(ipunique) + " I   " + " R   " + str(httpcodecounter) + " C   " + " L   " + str(link) +  "K")
         time.sleep(2)
         return ''
       else:
@@ -81,6 +85,10 @@ class thread(threading.Thread):
         msg1 = myrequest.getRequest(parsed.hostname, parsed.path, parsed.query)
         mysocket.send(msg1)
         dat = mysocket.receive()
+        data = dat.decode()
+        if('robot' in data):
+            robot = robot + 1
+        link = link + data.count('href')
         httpcode.append(dat[9:12].decode())
         for code in httpcode:
             if(len(code) != 0):
@@ -168,7 +176,11 @@ if __name__ == "__main__":
 
  end = time.perf_counter()
 
- print("Extracted " + str(counter) + " @ " + str(counter / (end - start)) + "/s")
+ print("Extracted " + str(counter) + " URLs @ " + str(counter / (end - start)) + "/s")
+ print("Looked up " + str(ipunique) + " DNS names @ " + str(ipunique / (end - start)) + "/s")
+ print("Downloaded " + str(robot) + " robots @ " + str(robot / (end - start)))
+ print("Crawled " + " pages @ ")
+ print("Parsed " +  " links @ " + str(0 / (end - start)) + "/s")
  for codes in httpcode:
   if(codes != ''):
     if(codes[0] == '2'):
