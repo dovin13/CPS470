@@ -40,7 +40,7 @@ class TCPsocket:
         try:
             ip = socket.gethostbyname(hostname)   # ip is a local variable to getIP(hostname), ip is of string type
         except socket.gaierror:
-            print("Failed to gethostbyname")
+
             return None
         return ip
 
